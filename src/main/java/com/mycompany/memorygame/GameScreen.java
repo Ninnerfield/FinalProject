@@ -100,7 +100,6 @@ public class GameScreen extends javax.swing.JFrame implements ActionListener {
                     }
                 }
             }else{
-    //            StartScreen.setHighScore(name + ":" + score);
                 JOptionPane.showMessageDialog(null, "You did not beat the high score of " +Integer.parseInt(StartScreen.returnHighScore().split(":")[1]) + " with a score of: " + score + ". Better luck next time!", "ScoreScreen", JOptionPane.INFORMATION_MESSAGE);
             }
         }
