@@ -64,41 +64,48 @@ public class GameScreen extends javax.swing.JFrame implements ActionListener {
     
     public void checkScore(){
         //Code based on https://www.guru99.com/buffered-reader-in-java.html
-        if (score > Integer.parseInt(StartScreen.returnHighScore().split(":")[1])){
-            String name = JOptionPane.showInputDialog("Your Score Is:" + score + ". Congrats, you broke the high score, enter your username:");
-            if (name == ""){
-                JOptionPane.showMessageDialog(null, "That is not a valid username", "Error", JOptionPane.ERROR_MESSAGE);
-                name = JOptionPane.showInputDialog("Your Score Is:" + score + ". Congrats, you broke the high score, enter your username:");
-            }
-            StartScreen.setHighScore(name + ":" + score);
-            File scoreFile = new File("highscore.dat");
-            if (!scoreFile.exists()){
-                try {
-                    scoreFile.createNewFile();
-                } catch (IOException ex) {
-                    Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            FileWriter writeFile = null;
-            BufferedWriter writer = null;
-            try{
-                writeFile = new FileWriter(scoreFile);
-                writer = new BufferedWriter(writeFile);
-                writer.write(StartScreen.getHighScore());
-            }catch(Exception e){
-                
-            }finally{
-                try{
-                    if (writer != null)
-                        writer.close();
-                }catch(Exception e){
-                    
-                }
-            }
+        score = pairs * moves * moves * 38 - seconds;
+        if (moves == 0 && pairs < 6){
+            JOptionPane.showMessageDialog(null, "You Lost", "You Lost", JOptionPane.ERROR_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "You did not beat the high score of " +Integer.parseInt(StartScreen.returnHighScore().split(":")[1]) + " with a score of: " + score + ", better luck next time!", "ScoreScreen", JOptionPane.ERROR_MESSAGE);
+            if (score > Integer.parseInt(StartScreen.returnHighScore().split(":")[1])){
+                String name = JOptionPane.showInputDialog("Your Score Is:" + score + ". Congrats, you broke the high score, enter your username:");
+                if (name == ""){
+                    JOptionPane.showMessageDialog(null, "That is not a valid username", "Error", JOptionPane.ERROR_MESSAGE);
+                    name = JOptionPane.showInputDialog("Your Score Is:" + score + ". Congrats, you broke the high score, enter your username:");
+                }
+                StartScreen.setHighScore(name + ":" + score);
+                File scoreFile = new File("highscore.dat");
+                if (!scoreFile.exists()){
+                    try {
+                        scoreFile.createNewFile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                FileWriter writeFile = null;
+                BufferedWriter writer = null;
+                try{
+                    writeFile = new FileWriter(scoreFile);
+                    writer = new BufferedWriter(writeFile);
+                    writer.write(StartScreen.getHighScore());
+                }catch(Exception e){
+
+                }finally{
+                    try{
+                        if (writer != null)
+                            writer.close();
+                    }catch(Exception e){
+
+                    }
+                }
+            }else{
+    //            StartScreen.setHighScore(name + ":" + score);
+                JOptionPane.showMessageDialog(null, "You did not beat the high score of " +Integer.parseInt(StartScreen.returnHighScore().split(":")[1]) + " with a score of: " + score + ". Better luck next time!", "ScoreScreen", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
+        
 
     public void computeMoves(int cardNum){
         setcardClicks(cardClicks + 1);
@@ -555,11 +562,14 @@ public class GameScreen extends javax.swing.JFrame implements ActionListener {
                                 ImageIcon button2 = disabledImage(buttonIconUrl[secondGuessCardNum], secondGuessCardNum);
                                 buttonList[secondGuessCardNum].setDisabledIcon(button2);
                                 pairs++;
-                                if (pairs == 6 || moves == 0){
+                                if (pairs == 6){
                                     computeMoves(i);
                                     checkScore();
                                 }
-                            }  
+                            }
+                            if (moves == 0 && pairs < 6){
+                                checkScore();
+                            }
                         }
                     }else{
                         computeMoves(i);
