@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Jinnerfield
+ * @author Ninnerfield
  */
 public class StartScreen extends javax.swing.JFrame {
     /**

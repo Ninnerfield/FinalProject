@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Jinnerfield
+ * @author Ninnerfield
  */
 public class CardImageGetter {
     /*

@@ -6,7 +6,7 @@ package com.mycompany.memorygame;
 
 /**
  *
- * @author Jinnerfield
+ * @author Ninnerfield
  */
 public class CardObjectGetter {
     Object cards;  
